@@ -1,0 +1,22 @@
+filter:
+  #here are filter rules
+  #file contents match the following rule, start - end - contains
+  - name: filterMyDoc
+    contains: import java.util
+  - name: test
+    start: h
+  - name: test
+  
+
+replace:
+  #here are replace rules
+  #filter rule can use: filterRuleName or excludeRuleName
+  #actions: matchStr matchRegex replace(must string)
+  - name: replaceImport
+    filterRuleName: filterMyDoc
+    actions:
+      - matchStr: import java.util
+        replace: hello world
+      - matchStr: import java.util
+        replace: smile
+  
