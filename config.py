@@ -16,11 +16,20 @@ class Config:
 
         print "config.json load completed"
 
+    def ensureNameExist(self, name):
+        """ensure rule name must exist"""
+        if None == name or "" == name:
+            print "rule name is required"
+            exit(1)
+
     def getFilterRuleList(self):
         """get filter rule list"""
         ruleList = []
         for data in  self.conf['filter']:
             name = data['name']
+
+            self.ensureNameExist(name)
+
             count = ruleList.count(name)
             if 0 == count:
                 ruleList.append(name)
@@ -30,26 +39,40 @@ class Config:
                 
         return ruleList
 
-    def getLoginUrl(self):
-        """登录地址"""
-        return self.doamin + self.conf["login_url"]
+    def getFilterRuleByName(self, ruleName):
+        for data in  self.conf['filter']:
+            name = data['name']
+            if name == ruleName:
+                return data
 
-    def getSignUrl(self):
-        """签到地址"""
-        return self.doamin + self.conf["sign_url"]
+    def getReplaceRuleList(self):
+        """get replace rule list"""
+        ruleList = []
+        for data in  self.conf['replace']:
+            name = data['name']
 
-    def getIndexUrl(self):
-        """首页地址"""
-        return self.doamin + self.conf["index_url"]
+            self.ensureNameExist(name)
 
-    def getUserName(self):
-        return self.conf["user_name"]
+            count = ruleList.count(name)
+            if 0 == count:
+                ruleList.append(name)
+            else:
+                print "erro! duplicate replace name: %s" % name
+                exit(1)
+                
+        return ruleList
 
-    def getPassword(self):
-        return self.conf["password"]
+    def getReplaceRuleByName(self, ruleName):
+        for data in  self.conf['replace']:
+            name = data['name']
+            if name == ruleName:
+                return data
 
-    def getQmIndexUrl(self):
-        return self.doamin + self.conf["qm_index_url"]
-
-
+    def validateActions(self, actions) :
+        if 0 == len(actions):
+            print "actions is required"
+            exit(1)
+        # for action in actions:
+        #     action["matchStr"]
+        #     action["replace"]
 

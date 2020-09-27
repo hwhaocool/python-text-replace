@@ -1,22 +1,62 @@
 filter:
   #here are filter rules
-  #file contents match the following rule, start - end - contains
-  - name: filterMyDoc
-    contains: import java.util
-  - name: test
-    start: h
-  - name: test
-  
+  #file contents match the following rule, start - end - contains, you can only select one of it
+
+  - name: koenigsegg
+    fileNameSuffix: java
+    searchInChild: true
+  - name: koenigsegg-pom
+    fileNameSuffix: pom.xml
+    searchInChild: true
+  - name: docker
+    fileNameSuffix: Dockerfile
+    searchInChild: true
+  - name: gradle
+    fileNameSuffix: gradle
+    searchInChild: true
+  - name: api
+    fileNameSuffix: application.yml
+    searchInChild: true
 
 replace:
   #here are replace rules
   #filter rule can use: filterRuleName or excludeRuleName
   #actions: matchStr matchRegex replace(must string)
-  - name: replaceImport
-    filterRuleName: filterMyDoc
+         
+  - name: repaclePackage
+    filterRuleName: koenigsegg
     actions:
-      - matchStr: import java.util
-        replace: hello world
-      - matchStr: import java.util
-        replace: smile
+      - matchStr: com.xxx.koenigsegg
+        replace: com.xxx.newProjectName
+
+  - name: repacleOAPom
+    filterRuleName: koenigsegg-pom
+    actions:
+      - matchStr: com.xxx.koenigsegg
+        replace: com.xxx.newProjectName
+      - matchStr: koenigsegg-
+        replace: newProjectName-
+       
+  - name: repacleFolderName
+    folder: true
+    actions:
+      - matchPrefix: koenigsegg
+        replace: newProjectName
   
+  - name: repacleDockerfile
+    filterRuleName: docker
+    actions:
+      - matchStr: koenigsegg-
+        replace: newProjectName-
+
+  - name: repacleGradle
+    filterRuleName: gradle
+    actions:
+      - matchStr: koenigsegg-
+        replace: newProjectName-
+
+  - name: repacleApiPath
+    filterRuleName: api
+    actions:
+      - matchStr: api/koenigsegg
+        replace: api/newProjectName
