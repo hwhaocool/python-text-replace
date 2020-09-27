@@ -1,0 +1,59 @@
+filter:
+  #here are filter rules
+  #file contents match the following rule, start - end - contains, you can only select one of it
+  - name: filterMyDoc
+    contains: MongoDocument
+    searchInChild: false
+  - name: filterPagenation
+    contains: com.xxx.be.Pagenation;
+    searchInChild: true
+  - name: filterAll
+    contains: package
+    searchInChild: true
+  - name: filterColon
+    fileNameSuffix: java
+    searchInChild: true
+    contains: :{}
+  - name: filterDBName
+    fileNameSuffix: java
+    searchInChild: true
+    start: import com.xxx.common.constant.DBNameConstant;
+  - name: filterSkmrUser
+    fileNameSuffix: java
+    start: import com.xxx.be.doc.xxx;
+    searchInChild: true
+
+  - name: oa
+    fileNameSuffix: java
+    start: import
+    searchInChild: true
+  - name: oa-pom
+    fileNameSuffix: pom.xml
+    start: <?xml
+    searchInChild: true
+
+replace:
+  #here are replace rules
+  #filter rule can use: filterRuleName or excludeRuleName
+  #actions: matchStr matchRegex replace(must string)
+  - name: replacePackage
+    excludeRuleName: filterMyDoc
+    actions:
+      - matchStr: package com.xxx.be.doc;
+        replace: package com.xxx.be.doc.model;
+
+  - name: replaceImport
+    filterRuleName: filterPagenation
+    actions:
+      - matchStr: import com.xxx.be.Pagenation;
+        replace: import com.xxx.be.c.Pagenation;
+  
+  - name: replaceDocInService
+    filterRuleName: filterAll
+    actions: 
+      - matchStr: com.xxx.app.skmr.model.xx
+        replace: com.xxx.be.doc.xx
+
+
+        
+       
